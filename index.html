@@ -4,107 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Emotion Detection</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: 100vh;
-            background-color: #e9ecef;
-            text-align: center;
-        }
-
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        #video-container {
-            position: relative;
-            width: 80%;
-            max-width: 800px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-
-        #video-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        #emotion {
-            font-size: 24px;
-            font-weight: bold;
-            color: #fff;
-            background-color: rgba(0, 0, 0, 0.6);
-            padding: 10px;
-            border-radius: 5px;
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        #suggestion {
-            font-size: 20px;
-            font-weight: bold;
-            color: #333;
-            background-color: #ffeb3b;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-            margin-top: 20px;
-            width: 80%;
-            margin-left: auto;
-            margin-right: auto;
-            text-align: center;
-            display: inline-block;
-        }
-
-        /* Add some animations to the suggestion box */
-        #suggestion {
-            animation: slideIn 0.5s ease-in-out;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(50px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="mood.css">
 </head>
 <body>
-
-    <h1>Emotion Detection</h1>
-    <div id="video-container">
-        <img src="{{ url_for('video_feed') }}" id="camera-feed">
-        <div id="emotion">{{ emotion }}</div>
+    <div class="container">
+        <h1>Emotion Detection</h1>
+        <div class="video-container">
+            <video id="video" width="100%" autoplay></video>
+            <div id="emotion" class="emotion-box">Emotion: Waiting...</div>
+        </div>
+        <div class="suggestions-box">
+            <h3>Suggestions for You:</h3>
+            <ul id="suggestions">
+                <li>Relax with deep breaths</li>
+            </ul>
+        </div>
+        <div class="todo-section">
+            <h3>What to Do?</h3>
+            <input type="text" id="todo-input" placeholder="Enter a task or activity...">
+            <button onclick="addTodo()">Add Task</button>
+            <ul id="todo-list"></ul>
+        </div>
     </div>
-    <div id="suggestion">{{ suggestion }}</div>
 
-    <script>
-        // Fetch the suggestion and emotion periodically
-        setInterval(() => {
-            fetch('/get_suggestion')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('suggestion').textContent = data.suggestion;
-                });
-        }, 1000);
-    </script>
-
+    <script src="mood.js"></script>
 </body>
 </html>
